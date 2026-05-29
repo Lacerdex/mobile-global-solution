@@ -15,10 +15,14 @@ public class EventoService {
 
     public Evento salvarEvento(Evento evento) {
         // Regra de Negócio Básica
-        if (evento.getTipo() == null) {
+        if (evento.getTipo() == null || evento.getTipo().isBlank()) {
             evento.setTipo("GENÉRICO");
         }
-        return eventoRepository.save(evento.toUpperCase());
+        else {
+            evento.setTipo(evento.getTipo().toUpperCase());
+        }
+
+        return eventoRepository.save(evento);
     }
 
     public List<Evento> listarTodos() {

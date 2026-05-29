@@ -16,8 +16,10 @@ public class SensorService {
         // Regra de Negócio Básica
         if (sensor.getStatus() == null) {
             sensor.setStatus("INATIVO");
+        } else {
+            sensor.setStatus(sensor.getStatus().toUpperCase());
         }
-        return sensorRepository.save(sensor.toUpperCase());
+        return sensorRepository.save(sensor);
     }
 
     public List<Sensor> listarTodos() {

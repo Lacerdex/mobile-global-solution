@@ -16,8 +16,10 @@ public class AlertaService {
         // Regra de Negócio Básica
         if (alerta.getGravidade() == null) {
             alerta.setGravidade("INFO");
+        } else {
+            alerta.setGravidade(alerta.getGravidade().toUpperCase());
         }
-        return alertaRepository.save(alerta.toUpperCase());
+        return alertaRepository.save(alerta);
     }
 
     public List<Alerta> listarTodos() {
