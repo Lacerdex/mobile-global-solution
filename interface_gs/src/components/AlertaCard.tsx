@@ -51,6 +51,8 @@ export function AlertaCard({ alerta, onDelete }: AlertaCardProps) {
   );
 }
 
+export default AlertaCard;
+
 const styles = StyleSheet.create({
   card: {
     padding: 16,
