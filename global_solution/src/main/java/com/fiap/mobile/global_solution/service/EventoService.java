@@ -1,11 +1,13 @@
 package com.fiap.mobile.global_solution.service;
 
-import com.fiap.mobile.global_solution.model.Evento;
-import com.fiap.mobile.global_solution.repository.EventoRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.fiap.mobile.global_solution.model.Evento;
+import com.fiap.mobile.global_solution.repository.EventoRepository;
 
 @Service
 public class EventoService {
@@ -35,5 +37,10 @@ public class EventoService {
 
     public List<Evento> listarPorTipo(String tipo) {
         return eventoRepository.findByTipo(tipo.toUpperCase());
+    }
+
+    @Transactional
+    public void deletarEvento(Long id) {
+        eventoRepository.deleteById(id);
     }
 }

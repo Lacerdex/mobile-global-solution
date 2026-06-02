@@ -1,10 +1,15 @@
 package com.fiap.mobile.global_solution.service;
 
-import com.fiap.mobile.global_solution.model.Alerta;
-import com.fiap.mobile.global_solution.repository.AlertaRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fiap.mobile.global_solution.model.Alerta;
+import com.fiap.mobile.global_solution.model.enums.AlertaGravidade;
+import com.fiap.mobile.global_solution.repository.AlertaRepository;
+
 
 @Service
 public class AlertaService {
@@ -15,9 +20,7 @@ public class AlertaService {
     public Alerta salvarAlerta(Alerta alerta) {
         // Regra de Negócio Básica
         if (alerta.getGravidade() == null) {
-            alerta.setGravidade("INFO");
-        } else {
-            alerta.setGravidade(alerta.getGravidade().toUpperCase());
+            return null; // Gravidade é obrigatória
         }
         return alertaRepository.save(alerta);
     }
@@ -30,7 +33,12 @@ public class AlertaService {
         return alertaRepository.findById(id).orElse(null);
     }
 
-    public List<Alerta> listarPorGravidade(String gravidade) {
-        return alertaRepository.findByGravidade(gravidade.toUpperCase());
+    public List<Alerta> listarPorGravidade(AlertaGravidade gravidade) {
+        return alertaRepository.findByGravidade(gravidade);
+    }
+
+    @Transactional
+    public void deletarAlerta(Long id) {
+        alertaRepository.deleteById(id);
     }
 }

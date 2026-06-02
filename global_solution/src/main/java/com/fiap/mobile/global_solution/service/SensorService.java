@@ -1,10 +1,14 @@
 package com.fiap.mobile.global_solution.service;
 
-import com.fiap.mobile.global_solution.model.Sensor;
-import com.fiap.mobile.global_solution.repository.SensorRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fiap.mobile.global_solution.model.Sensor;
+import com.fiap.mobile.global_solution.model.enums.StatusSensor;
+import com.fiap.mobile.global_solution.repository.SensorRepository;
 
 @Service
 public class SensorService {
@@ -15,9 +19,7 @@ public class SensorService {
     public Sensor salvarSensor(Sensor sensor) {
         // Regra de Negócio Básica
         if (sensor.getStatus() == null) {
-            sensor.setStatus("INATIVO");
-        } else {
-            sensor.setStatus(sensor.getStatus().toUpperCase());
+            sensor.setStatus(StatusSensor.INATIVO); // Status padrão
         }
         return sensorRepository.save(sensor);
     }
@@ -30,7 +32,12 @@ public class SensorService {
         return sensorRepository.findById(id).orElse(null);
     }
 
-    public List<Sensor> listarPorStatus(String status) {
-        return sensorRepository.findByStatus(status.toUpperCase());
+    public List<Sensor> listarPorStatus(StatusSensor status) {
+        return sensorRepository.findByStatus(status);
+    }
+
+    @Transactional
+    public void deletarSensor(Long id) {
+        sensorRepository.deleteById(id);
     }
 }
