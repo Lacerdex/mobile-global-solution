@@ -4,8 +4,12 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fiap.mobile.global_solution.model.enums.StatusSensor;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,10 +31,14 @@ public class Sensor {
     private String nome;
 
     @Column(nullable = false)
-    private String tipo; // Ex: "Temperatura", "Pressão", "Vibração"
+    private String localizacao;
 
     @Column(nullable = false)
-    private String status; // Ex: "OK", "ALERTA", "CRITICO"
+    private String tipo; // Ex: "Temperatura", "Pressão", "Vibração"
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StatusSensor status; // Ex: OK, ALERTA, CRITICO, INATIVO
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
