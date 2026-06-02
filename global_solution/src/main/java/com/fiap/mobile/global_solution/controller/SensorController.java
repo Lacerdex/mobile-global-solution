@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fiap.mobile.global_solution.model.Sensor;
+import com.fiap.mobile.global_solution.model.enums.StatusSensor;
 import com.fiap.mobile.global_solution.service.SensorService;
 
 @RestController
@@ -37,7 +39,7 @@ public class SensorController {
     }
 
     @GetMapping("/filtro")
-    public ResponseEntity<List<Sensor>> filtrarPorStatus(@RequestParam String status) {
+    public ResponseEntity<List<Sensor>> filtrarPorStatus(@RequestParam StatusSensor status) {
         return ResponseEntity.ok(sensorService.listarPorStatus(status));
     }
 
@@ -48,5 +50,15 @@ public class SensorController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(sensor);
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarSensor(@PathVariable Long id) {
+        Sensor sensor = sensorService.buscarPorId(id);
+        if (sensor == null) {
+            return ResponseEntity.notFound().build();
+        }
+        sensorService.deletarSensor(id);
+        return ResponseEntity.noContent().build();
     }
 }
